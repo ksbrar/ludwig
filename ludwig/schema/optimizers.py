@@ -61,7 +61,7 @@ class SGDOptimizerConfig(BaseOptimizerConfig):
     """Must be 'sgd' - corresponds to name in `ludwig.modules.optimization_modules.optimizer_registry` (default:
        'sgd')"""
 
-    lr: float = FloatRange(default=1e-03, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=1e-03, description="Learning rate.")
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD :
     momentum: float = NonNegativeFloat(default=0.0, description="Momentum factor.")
@@ -83,7 +83,7 @@ class AdamOptimizerConfig(BaseOptimizerConfig):
        (default: 'adam')"""
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam :
-    lr: float = FloatRange(default=1e-03, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=1e-03, description="Learning rate.")
     betas: Tuple[float, float] = FloatRangeTupleDataclassField(
         default=(0.9, 0.999), description="Coefficients used for computing running averages of gradient and its square."
     )
@@ -113,7 +113,7 @@ class AdamWOptimizerConfig(BaseOptimizerConfig):
        (default: 'adamw')"""
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.Adam.html#torch.optim.Adam :
-    lr: float = FloatRange(default=1e-03, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=1e-03, description="Learning rate.")
     betas: Tuple[float, float] = FloatRangeTupleDataclassField(
         default=(0.9, 0.999), description="Coefficients used for computing running averages of gradient and its square."
     )
@@ -152,10 +152,8 @@ class AdadeltaOptimizerConfig(BaseOptimizerConfig):
     eps: float = NonNegativeFloat(
         default=1e-06, description="Term added to the denominator to improve numerical stability."
     )
-    lr: float = FloatRange(
+    lr: float = NonNegativeFloat(
         default=1.0,
-        min=0.0,
-        max=1.0,
         description="Coefficient that scales delta before it is applied to the parameters.",
     )
     weight_decay: float = NonNegativeFloat(default=0.0, description="Weight decay ($L2$ penalty).")
@@ -176,7 +174,7 @@ class AdagradOptimizerConfig(BaseOptimizerConfig):
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.Adagrad.html#torch.optim.Adagrad :
     initial_accumulator_value: float = NonNegativeFloat(default=0, description="")
-    lr: float = FloatRange(default=1e-2, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=1e-2, description="Learning rate.")
     lr_decay: float = FloatRange(default=0, description="Learning rate decay.")
     weight_decay: float = FloatRange(default=0, description="Weight decay ($L2$ penalty).")
     eps: float = FloatRange(default=1e-10, description="Term added to the denominator to improve numerical stability.")
@@ -195,7 +193,7 @@ class AdamaxOptimizerConfig(BaseOptimizerConfig):
        (default: 'adamax')"""
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.Adamax.html#torch.optim.Adamax :
-    lr: float = FloatRange(default=2e-3, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=2e-3, description="Learning rate.")
     betas: Tuple[float, float] = FloatRangeTupleDataclassField(
         default=(0.9, 0.999), description="Coefficients used for computing running averages of gradient and its square."
     )
@@ -223,7 +221,7 @@ class NadamOptimizerConfig(BaseOptimizerConfig):
     # optimizer_class: ClassVar[torch.optim.Optimizer] = torch.optim.Nadam
     type: str = StringOptions(["nadam"], default="nadam", allow_none=False)
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.NAdam.html#torch.optim.NAdam :
-    lr: float = FloatRange(default=2e-3, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=2e-3, description="Learning rate.")
     betas: Tuple[float, float] = FloatRangeTupleDataclassField(
         default=(0.9, 0.999), description="Coefficients used for computing running averages of gradient and its square."
     )
@@ -247,7 +245,7 @@ class RMSPropOptimizerConfig(BaseOptimizerConfig):
        (default: 'rmsprop')"""
 
     # Defaults taken from https://pytorch.org/docs/stable/generated/torch.optim.RMSprop.html#torch.optim.RMSprop:
-    lr: float = FloatRange(default=1e-2, min=0.0, max=1.0, description="Learning rate.")
+    lr: float = NonNegativeFloat(default=1e-2, description="Learning rate.")
     momentum: float = NonNegativeFloat(default=0.0, description="Momentum factor.")
     alpha: float = NonNegativeFloat(default=0.99, description="Smoothing constant.")
     eps: float = NonNegativeFloat(
