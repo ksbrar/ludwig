@@ -38,7 +38,7 @@ from ludwig.schema.utils import BaseMarshmallowConfig, convert_submodules
 config_sections = {INPUT_FEATURES, OUTPUT_FEATURES, PREPROCESSING, TRAINER, COMBINER, DEFAULTS, HYPEROPT}
 
 
-def test_config_object():
+def test_config_object_1():
     config = {
         "input_features": [
             {
@@ -64,7 +64,7 @@ def test_config_object():
                 },
                 "encoder": {
                     "type": "stacked_cnn",
-                    "num_channels": 4,
+                    "num_channels": "4",
                     "dropout": 0.1,
                 },
             },

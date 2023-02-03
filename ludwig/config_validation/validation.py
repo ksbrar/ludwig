@@ -1,7 +1,7 @@
 from functools import lru_cache
 from threading import Lock
 
-from jsonschema import Draft7Validator, validate
+from jsonschema import Draft7Validator, validate, ValidationError
 from jsonschema.validators import extend
 
 from ludwig.api_annotations import DeveloperAPI
@@ -25,6 +25,9 @@ from ludwig.schema.features.utils import get_input_feature_jsonschema, get_outpu
 from ludwig.schema.hyperopt import get_hyperopt_jsonschema
 from ludwig.schema.preprocessing import get_preprocessing_jsonschema
 from ludwig.schema.trainer import get_model_type_jsonschema, get_trainer_jsonschema
+
+# from typing import Type
+
 
 VALIDATION_LOCK = Lock()
 
@@ -87,6 +90,15 @@ def get_validator():
     return extend(Draft7Validator, type_checker=type_checker)
 
 
+def get_formatted_validation_error_message(err: ValidationError):
+    # path_to_error_in_config = err.json_path[1:]  # Clip the leading '$.' at the beginning
+
+    # TODO: Improve this error message by using the full schema path to retrieve the actual schema and point the user
+    # more directly to the offending parameter's specification.
+
+    pass
+
+
 @DeveloperAPI
 def validate_upgraded_config(updated_config):
     from ludwig.data.split import get_splitter
@@ -97,7 +109,15 @@ def validate_upgraded_config(updated_config):
     splitter.validate(updated_config)
 
     with VALIDATION_LOCK:
+        # try:
         validate(instance=updated_config, schema=get_schema(model_type=model_type), cls=get_validator())
+    # except Exception as e:
+    #     import inspect
+
+    #     print("\n".join(str(x) for x in inspect.getmembers(e)))
+    #     print("\n\n\n")
+    #     print(e.message)
+    #     print(e.errors)
 
 
 @DeveloperAPI

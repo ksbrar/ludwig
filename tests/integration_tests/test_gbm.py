@@ -54,6 +54,8 @@ def _train_and_predict_gbm(input_features, output_features, tmpdir, backend_conf
         TRAINER: {"num_boost_round": 2, "feature_pre_filter": False},
     }
 
+    config[INPUT_FEATURES][0]["column"] = "fajsklfjdakl"
+
     if trainer_config:
         config[TRAINER].update(trainer_config)
 
